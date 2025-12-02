@@ -1,3 +1,4 @@
+```
 # Dockerfile-practise
 Write a Dockerfile to run PHP using php-fpm-alpine
 This project provides a Dockerized PHP-FPM environment based on Alpine Linux, designed for modern web applications with PostgreSQL database support and comprehensive image processing capabilities.
@@ -23,3 +24,4 @@ The Dockerfile includes essential system libraries:
 - imagemagick-dev: ImageMagick library files for imagick extension
 
 - postgresql-dev: PostgreSQL client libraries and development files
+```
