@@ -25,6 +25,8 @@ RUN pecl install imagick \
 RUN pecl install xdebug \
 	&& docker-php-ext-enable xdebug
 
+COPY docker/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 COPY --from=composer/composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
