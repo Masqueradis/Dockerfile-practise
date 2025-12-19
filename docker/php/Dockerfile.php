@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.4-fpm AS base
 
 RUN apt-get update && apt-get install -y \
 	libfreetype-dev \
@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
 	libpq-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
+FROM base AS dependencies
+
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install \
 		intl \
@@ -18,14 +20,15 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 		pdo_pgsql \
 		gd
 
-		
 RUN pecl install imagick \
 	&& docker-php-ext-enable imagick
 
 RUN pecl install xdebug \
 	&& docker-php-ext-enable xdebug
 
-COPY docker/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+FROM dependencies AS configure
+
+COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY --from=composer/composer:latest /usr/bin/composer /usr/bin/composer
 
